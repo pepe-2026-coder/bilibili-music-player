@@ -1,0 +1,188 @@
+/* 下载页面移动端专用样式 */
+
+/* 移动端基础设置 */
+@media (max-width: 768px) {
+  /* 页面容器优化 */
+  .downloads-page-container {
+    padding: 0 12px 16px !important;
+    margin-bottom: 120px !important;
+  }
+  
+  /* 卡片样式优化 */
+  .download-item-card {
+    margin-bottom: 16px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+  }
+  
+  /* 标题优化 */
+  .download-item-title {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    font-weight: 500 !important;
+    margin-bottom: 8px !important;
+  }
+  
+  /* 按钮优化 - 确保触摸目标大小 */
+  .download-action-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+  }
+  
+  /* 主要操作按钮 */
+  .download-primary-btn {
+    flex: 1 !important;
+    background: linear-gradient(135deg, #fb7299 0%, #ff6b8a 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(251, 114, 153, 0.3) !important;
+  }
+  
+  /* 删除按钮 */
+  .download-delete-btn {
+    flex: 1 !important;
+    background: rgba(255, 77, 79, 0.1) !important;
+    border: 1px solid rgba(255, 77, 79, 0.3) !important;
+    color: #ff4d4f !important;
+  }
+  
+  /* 进度条优化 */
+  .download-progress {
+    height: 8px !important;
+    border-radius: 4px !important;
+  }
+  
+  .download-progress-inner {
+    border-radius: 4px !important;
+  }
+  
+  /* 状态标签优化 */
+  .download-status-tag {
+    font-size: 12px !important;
+    padding: 2px 8px !important;
+    border-radius: 12px !important;
+    font-weight: 500 !important;
+  }
+  
+  /* 页面头部优化 */
+  .downloads-header {
+    padding-top: 12px !important;
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  .downloads-header h3 {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    margin: 0 0 12px 0 !important;
+  }
+  
+  /* 统计信息优化 */
+  .downloads-stats {
+    font-size: 13px !important;
+    gap: 12px !important;
+  }
+  
+  /* 空状态优化 */
+  .downloads-empty {
+    padding: 40px 16px !important;
+    text-align: center !important;
+  }
+  
+  .downloads-empty .anticon {
+    font-size: 48px !important;
+    margin-bottom: 16px !important;
+    opacity: 0.6 !important;
+  }
+  
+  .downloads-empty h4 {
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
+    color: #718096 !important;
+  }
+  
+  .downloads-empty p {
+    font-size: 14px !important;
+    color: #a0aec0 !important;
+  }
+}
+
+/* 大屏设备优化 */
+@media (min-width: 769px) {
+  .downloads-page-container {
+    padding: 0 24px 24px !important;
+    margin-bottom: 80px !important;
+  }
+  
+  .download-item-card {
+    margin-bottom: 20px !important;
+  }
+  
+  .downloads-header h3 {
+    font-size: 24px !important;
+  }
+}
+
+/* 触摸反馈优化 */
+.download-action-btn:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .download-item-card {
+    background: rgba(30, 30, 30, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .downloads-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* 安全区域适配 */
+@supports (padding: max(0px)) {
+  .downloads-page-container {
+    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  }
+  
+  .bottom-fixed-container {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+}
+
+/* 动画优化 */
+.download-item-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.download-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* 加载状态优化 */
+.download-loading-skeleton {
+  border-radius: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+/* 响应式字体大小 */
+@media (max-width: 480px) {
+  .download-item-title {
+    font-size: 15px !important;
+  }
+  
+  .downloads-header h3 {
+    font-size: 20px !important;
+  }
+  
+  .download-action-btn {
+    font-size: 14px !important;
+    height: 40px !important;
+  }
+}

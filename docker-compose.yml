@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  bilibili-music:
+    build: .
+    container_name: bilibili-music-player
+    ports:
+      - "8832:3000"  # 左侧改为NAS上你想用的端口
+    volumes:
+      - ./data:/app/data
+      - ./downloads:/app/downloads
+      - ./cache:/app/cache
+      - ./temp:/app/temp
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
