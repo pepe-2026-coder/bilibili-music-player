@@ -287,7 +287,7 @@ export default function PlaylistPage() {
                     actions={[
                       <Button
                         type="text"
-                        icon={<PlayCircleOutlined />} 
+                        icon={<PlayCircleOutlined />}
                         onClick={() => {
                           // 如果是从歌单播放，设置整个歌单为播放队列
                           setPlaylist(songs, index);

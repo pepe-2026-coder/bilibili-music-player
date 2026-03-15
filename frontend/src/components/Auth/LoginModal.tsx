@@ -1,5 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { Modal, QRCode, Spin, message, Space, Typography, Tabs, Button, Alert } from "antd";
+import {
+  Modal,
+  QRCode,
+  Spin,
+  message,
+  Space,
+  Typography,
+  Tabs,
+  Button,
+  Alert,
+} from "antd";
 import { authApi } from "../../services/api";
 import { useAuthStore } from "../../stores/authStore";
 
@@ -26,14 +36,16 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
   const fetchQrcode = async () => {
     setLoading(true);
     try {
-      const apiCall = loginMethod === "qrcode" ? authApi.getQrcode : authApi.getAppQrcode;
+      const apiCall =
+        loginMethod === "qrcode" ? authApi.getQrcode : authApi.getAppQrcode;
       const response = await apiCall();
       console.log("QRCode API response:", response);
       const { data } = response;
       if (data.code === 0) {
         // APP授权模式返回authUrl，扫码模式返回url
         const responseData = data.data as any;
-        const url = loginMethod === "app" ? responseData.authUrl : responseData.url;
+        const url =
+          loginMethod === "app" ? responseData.authUrl : responseData.url;
         setQrcodeUrl(url);
         setSessionId(responseData.sessionId);
         // APP授权模式保存授权URL
@@ -63,7 +75,10 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
 
     pollIntervalRef.current = setInterval(async () => {
       try {
-        const apiCall = method === "qrcode" ? authApi.pollLoginStatus : authApi.pollAppLoginStatus;
+        const apiCall =
+          method === "qrcode"
+            ? authApi.pollLoginStatus
+            : authApi.pollAppLoginStatus;
         const { data } = await apiCall(sid);
         if (data.code === 0) {
           const newStatus = data.data.status as typeof status;
@@ -107,7 +122,7 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
     if (appAuthUrl) {
       // 使用 bilibili:// 协议调起APP
       window.location.href = appAuthUrl;
-      
+
       // 同时打开H5页面作为备选
       setTimeout(() => {
         if (qrcodeUrl) {
@@ -230,7 +245,10 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
             <Text type="secondary">二维码已过期</Text>
           </div>
         )}
-        <Text type={status === "expired" ? "danger" : "secondary"} style={{ marginTop: 16 }}>
+        <Text
+          type={status === "expired" ? "danger" : "secondary"}
+          style={{ marginTop: 16 }}
+        >
           {getStatusText()}
         </Text>
         {status === "expired" && (

@@ -1,6 +1,19 @@
 import { useState, useEffect } from "react";
-import { Modal, List, Button, Space, Typography, Empty, message, Divider } from "antd";
-import { PlusOutlined, PlayCircleOutlined, FastForwardOutlined } from "@ant-design/icons";
+import {
+  Modal,
+  List,
+  Button,
+  Space,
+  Typography,
+  Empty,
+  message,
+  Divider,
+} from "antd";
+import {
+  PlusOutlined,
+  PlayCircleOutlined,
+  FastForwardOutlined,
+} from "@ant-design/icons";
 import { playlistApi, videoApi } from "../../services/api";
 import { usePlayerStore } from "../../stores/playerStore";
 import type { Playlist, Video, Song } from "../../types";
@@ -149,7 +162,12 @@ export default function AddToPlaylistModal({
           type="primary"
           icon={<PlayCircleOutlined />}
           onClick={handleAddToPlaylist}
-          style={{ width: "100%", height: 40, background: "#fb7299", borderColor: "#fb7299" }}
+          style={{
+            width: "100%",
+            height: 40,
+            background: "#fb7299",
+            borderColor: "#fb7299",
+          }}
         >
           添加到播放列表（末尾）
         </Button>
@@ -157,7 +175,12 @@ export default function AddToPlaylistModal({
           type="primary"
           icon={<FastForwardOutlined />}
           onClick={handleAddToNextPlay}
-          style={{ width: "100%", height: 40, background: "#fb7299", borderColor: "#fb7299" }}
+          style={{
+            width: "100%",
+            height: 40,
+            background: "#fb7299",
+            borderColor: "#fb7299",
+          }}
         >
           添加到下一首播放
         </Button>
@@ -165,7 +188,9 @@ export default function AddToPlaylistModal({
 
       <Divider style={{ margin: "16px 0" }} />
 
-      <Text strong style={{ display: "block", marginBottom: 12 }}>添加到歌单</Text>
+      <Text strong style={{ display: "block", marginBottom: 12 }}>
+        添加到歌单
+      </Text>
       {playlists.length === 0 ? (
         <Empty description="暂无歌单，请先创建歌单" />
       ) : (

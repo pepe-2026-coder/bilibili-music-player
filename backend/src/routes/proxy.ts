@@ -166,7 +166,11 @@ router.get("/media", async (req, res) => {
       actualAudioUrl = `https://api.bilibili.com/x/player/playurl?bvid=${bvid}&cid=${cid}`;
 
       // 如果缓存不存在且是检查请求，直接返回 MISS
-      const tempCachePathResult = getCachePath(actualAudioUrl, "media", cacheKey);
+      const tempCachePathResult = getCachePath(
+        actualAudioUrl,
+        "media",
+        cacheKey
+      );
       if (check === "1" && !fs.existsSync(tempCachePathResult.cachePath)) {
         res.setHeader("X-Cache-Status", "MISS");
         return res.status(404).json({
@@ -184,7 +188,11 @@ router.get("/media", async (req, res) => {
     const completeMediaUrl = completeUrl(actualAudioUrl);
 
     // 获取缓存路径（包括临时文件路径）
-    const { cachePath, tempPath } = getCachePath(completeMediaUrl, "media", cacheKey);
+    const { cachePath, tempPath } = getCachePath(
+      completeMediaUrl,
+      "media",
+      cacheKey
+    );
     const isVideo = type === "video";
 
     // 检查是否有未完成的临时下载（之前下载中断留下的）
@@ -327,10 +335,14 @@ router.get("/media", async (req, res) => {
 
     // 使用 tee 模式：同时写入缓存和响应客户端
     const teewriter = new Writable({
-      write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+      write(
+        chunk: Buffer,
+        encoding: BufferEncoding,
+        callback: (error?: Error | null) => void
+      ) {
         cacheStream.write(chunk, () => {}); // 写入缓存
         res.write(chunk, callback); // 写入响应
-      }
+      },
     });
 
     response.data.pipe(teewriter);

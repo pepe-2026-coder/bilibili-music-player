@@ -225,7 +225,7 @@ router.get("/debug/wbi-cache", (req, res) => {
 router.get("/recommend", async (req, res) => {
   try {
     const { page = "1", pageSize = "20" } = req.query;
-    
+
     const result = await getRecommendVideos(
       31, // 音乐区
       parseInt(page as string),

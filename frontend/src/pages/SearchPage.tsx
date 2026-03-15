@@ -169,8 +169,18 @@ export default function SearchPage() {
       {!loading && videos.length > 0 && (
         <>
           {isRecommend && (
-            <div style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-              <Typography.Title level={5} style={{ margin: 0, color: "#2d3748" }}>
+            <div
+              style={{
+                marginBottom: 16,
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <Typography.Title
+                level={5}
+                style={{ margin: 0, color: "#2d3748" }}
+              >
                 热门推荐
               </Typography.Title>
               <Typography.Text type="secondary" style={{ fontSize: 12 }}>
@@ -179,77 +189,81 @@ export default function SearchPage() {
             </div>
           )}
           <List
-          grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
-          dataSource={videos}
-          renderItem={(video) => (
-            <List.Item>
-              <Card
-                hoverable
-                cover={
-                  <div style={{ position: "relative" }}>
-                    <Image
-                      alt={video.title}
-                      src={proxyApi.getImageUrl(video.pic)}
-                      style={{ height: 160, objectFit: "cover" }}
-                      preview={false}
-                    />
-                    <Tag
-                      color="rgba(0,0,0,0.7)"
-                      style={{ position: "absolute", bottom: 8, right: 8 }}
-                    >
-                      {formatDuration(video.duration || "")}
-                    </Tag>
-                  </div>
-                }
-                actions={[
-                  <Button
-                    type="text"
-                    icon={<PlayCircleOutlined />}
-                    onClick={() => handlePlay(video)}
-                  >
-                    播放
-                  </Button>,
-                  <Button
-                    type="text"
-                    icon={<PlusOutlined />}
-                    onClick={() => handleAddToPlaylist(video)}
-                  >
-                    添加
-                  </Button>,
-                  <Button
-                    type="text"
-                    icon={<DownloadOutlined />}
-                    onClick={() => handleDownload(video)}
-                  >
-                    下载
-                  </Button>,
-                ]}
-              >
-                <Card.Meta
-                  title={
-                    <Text
-                      ellipsis={{ tooltip: video.title }}
-                      style={{ width: "100%", display: "block" }}
-                    >
-                      {video.title}
-                    </Text>
+            grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
+            dataSource={videos}
+            renderItem={(video) => (
+              <List.Item>
+                <Card
+                  hoverable
+                  cover={
+                    <div style={{ position: "relative" }}>
+                      <Image
+                        alt={video.title}
+                        src={proxyApi.getImageUrl(video.pic)}
+                        style={{ height: 160, objectFit: "cover" }}
+                        preview={false}
+                      />
+                      <Tag
+                        color="rgba(0,0,0,0.7)"
+                        style={{ position: "absolute", bottom: 8, right: 8 }}
+                      >
+                        {formatDuration(video.duration || "")}
+                      </Tag>
+                    </div>
                   }
-                  description={
-                    <Space direction="vertical" size={0}>
-                      <Text type="secondary" ellipsis style={{ fontSize: 12 }}>
-                        {video.author}
+                  actions={[
+                    <Button
+                      type="text"
+                      icon={<PlayCircleOutlined />}
+                      onClick={() => handlePlay(video)}
+                    >
+                      播放
+                    </Button>,
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={() => handleAddToPlaylist(video)}
+                    >
+                      添加
+                    </Button>,
+                    <Button
+                      type="text"
+                      icon={<DownloadOutlined />}
+                      onClick={() => handleDownload(video)}
+                    >
+                      下载
+                    </Button>,
+                  ]}
+                >
+                  <Card.Meta
+                    title={
+                      <Text
+                        ellipsis={{ tooltip: video.title }}
+                        style={{ width: "100%", display: "block" }}
+                      >
+                        {video.title}
                       </Text>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
-                        播放: {formatNumber(video.view)} · 点赞:{" "}
-                        {formatNumber(video.like)}
-                      </Text>
-                    </Space>
-                  }
-                />
-              </Card>
-            </List.Item>
-          )}
-        />
+                    }
+                    description={
+                      <Space direction="vertical" size={0}>
+                        <Text
+                          type="secondary"
+                          ellipsis
+                          style={{ fontSize: 12 }}
+                        >
+                          {video.author}
+                        </Text>
+                        <Text type="secondary" style={{ fontSize: 12 }}>
+                          播放: {formatNumber(video.view)} · 点赞:{" "}
+                          {formatNumber(video.like)}
+                        </Text>
+                      </Space>
+                    }
+                  />
+                </Card>
+              </List.Item>
+            )}
+          />
         </>
       )}
 

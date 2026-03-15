@@ -663,7 +663,7 @@ export async function getAppAuthUrl() {
     // 构建APP授权URL
     // 方式1: bilibili:// 协议调起APP
     const appAuthUrl = `bilibili://browser/v6?url=${encodeURIComponent(url)}`;
-    
+
     // 方式2: 直接返回H5授权页面URL
     const authUrl = url;
 

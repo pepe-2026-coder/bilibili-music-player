@@ -4,7 +4,11 @@ import { message } from "antd";
 export const PWAInstallPrompt: React.FC = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<
-    (Event & { prompt?: () => Promise<void>; userChoice?: Promise<{ outcome: string }> }) | null
+    | (Event & {
+        prompt?: () => Promise<void>;
+        userChoice?: Promise<{ outcome: string }>;
+      })
+    | null
   >(null);
 
   useEffect(() => {
@@ -19,9 +23,10 @@ export const PWAInstallPrompt: React.FC = () => {
     }
 
     // 检查是否是移动端设备
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
 
     // 检查浏览器是否支持PWA安装
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -42,7 +47,10 @@ export const PWAInstallPrompt: React.FC = () => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 

@@ -85,49 +85,54 @@ export default function DownloadsPage() {
   };
 
   const getStatusInfo = (status: string) => {
-    const statusMap: Record<string, { 
-      color: string; 
-      text: string; 
-      icon: React.ReactNode;
-      description: string;
-    }> = {
-      pending: { 
-        color: "default", 
-        text: "等待中", 
-        icon: <ClockCircleOutlined />, 
-        description: "任务已在队列中等待处理"
+    const statusMap: Record<
+      string,
+      {
+        color: string;
+        text: string;
+        icon: React.ReactNode;
+        description: string;
+      }
+    > = {
+      pending: {
+        color: "default",
+        text: "等待中",
+        icon: <ClockCircleOutlined />,
+        description: "任务已在队列中等待处理",
       },
-      downloading: { 
-        color: "processing", 
-        text: "下载中", 
-        icon: <SyncOutlined spin />, 
-        description: "正在从服务器下载文件"
+      downloading: {
+        color: "processing",
+        text: "下载中",
+        icon: <SyncOutlined spin />,
+        description: "正在从服务器下载文件",
       },
-      converting: { 
-        color: "warning", 
-        text: "转换中", 
-        icon: <SyncOutlined spin />, 
-        description: "正在转换音频格式"
+      converting: {
+        color: "warning",
+        text: "转换中",
+        icon: <SyncOutlined spin />,
+        description: "正在转换音频格式",
       },
-      completed: { 
-        color: "success", 
-        text: "已完成", 
-        icon: <CheckCircleOutlined />, 
-        description: "下载完成，可随时播放"
+      completed: {
+        color: "success",
+        text: "已完成",
+        icon: <CheckCircleOutlined />,
+        description: "下载完成，可随时播放",
       },
-      failed: { 
-        color: "error", 
-        text: "失败", 
-        icon: <CloseCircleOutlined />, 
-        description: "下载过程出现错误"
+      failed: {
+        color: "error",
+        text: "失败",
+        icon: <CloseCircleOutlined />,
+        description: "下载过程出现错误",
       },
     };
-    return statusMap[status] || {
-      color: "default",
-      text: status,
-      icon: <FileOutlined />,
-      description: "未知状态"
-    };
+    return (
+      statusMap[status] || {
+        color: "default",
+        text: status,
+        icon: <FileOutlined />,
+        description: "未知状态",
+      }
+    );
   };
 
   const getStatusTag = (status: string) => {
@@ -154,7 +159,7 @@ export default function DownloadsPage() {
   // 移动端友好的下载项卡片组件
   const DownloadItemCard = ({ task }: { task: DownloadTask }) => {
     const statusInfo = getStatusInfo(task.status);
-    
+
     return (
       <Card
         size="small"
@@ -176,19 +181,23 @@ export default function DownloadsPage() {
               flexShrink: 0,
             }}
           />
-          
+
           <div style={{ flex: 1, minWidth: 0 }}>
             {/* 标题和状态 */}
             <div style={{ marginBottom: 8 }}>
-              <Text 
-                strong 
+              <Text
+                strong
                 className="download-item-title"
                 ellipsis={{ tooltip: task.title }}
               >
                 {task.title}
               </Text>
               <Space size={8}>
-                <Tag color={statusInfo.color} icon={statusInfo.icon} className="download-status-tag">
+                <Tag
+                  color={statusInfo.color}
+                  icon={statusInfo.icon}
+                  className="download-status-tag"
+                >
                   {statusInfo.text}
                 </Tag>
                 <Text type="secondary" style={{ fontSize: 12 }}>
@@ -196,7 +205,7 @@ export default function DownloadsPage() {
                 </Text>
               </Space>
             </div>
-            
+
             {/* 进度条 */}
             <div style={{ marginBottom: 12 }}>
               {task.status === "completed" ? (
@@ -206,7 +215,13 @@ export default function DownloadsPage() {
                 </Text>
               ) : (
                 <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: 4,
+                    }}
+                  >
                     <Text type="secondary" style={{ fontSize: 12 }}>
                       {statusInfo.description}
                     </Text>
@@ -214,9 +229,9 @@ export default function DownloadsPage() {
                       {task.progress}%
                     </Text>
                   </div>
-                  <Progress 
-                    percent={task.progress} 
-                    size="small" 
+                  <Progress
+                    percent={task.progress}
+                    size="small"
                     showInfo={false}
                     strokeColor="#fb7299"
                     className="download-progress"
@@ -224,9 +239,16 @@ export default function DownloadsPage() {
                 </div>
               )}
             </div>
-            
+
             {/* 文件信息 */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 12,
+              }}
+            >
               <Text type="secondary" style={{ fontSize: 12 }}>
                 大小: {formatFileSize(task.file_size)}
               </Text>
@@ -234,7 +256,7 @@ export default function DownloadsPage() {
                 {new Date(task.created_at).toLocaleDateString()}
               </Text>
             </div>
-            
+
             {/* 操作按钮 - 响应式布局 */}
             <div style={{ display: "flex", gap: 8 }}>
               {task.status === "completed" && (
@@ -268,10 +290,15 @@ export default function DownloadsPage() {
     <div className="downloads-page-container">
       {/* 页面头部 - 移动端优化 */}
       <div className="downloads-header">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-          <Title level={3}>
-            下载管理
-          </Title>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 12,
+          }}
+        >
+          <Title level={3}>下载管理</Title>
           <Button
             type="text"
             icon={<ReloadOutlined />}
@@ -285,16 +312,15 @@ export default function DownloadsPage() {
             }}
           />
         </div>
-        
+
         {/* 统计信息 */}
         <div style={{ display: "flex", gap: 16 }}>
           <Space className="downloads-stats">
-            <Text type="secondary">
-              总计: {downloads.length} 个任务
-            </Text>
+            <Text type="secondary">总计: {downloads.length} 个任务</Text>
             <Divider type="vertical" />
             <Text type="success">
-              已完成: {downloads.filter(d => d.status === "completed").length} 个
+              已完成: {downloads.filter((d) => d.status === "completed").length}{" "}
+              个
             </Text>
           </Space>
         </div>
@@ -303,13 +329,13 @@ export default function DownloadsPage() {
       {/* 空状态 */}
       {downloads.length === 0 && !loading && (
         <div className="downloads-empty">
-          <FileOutlined style={{ fontSize: 48, marginBottom: 16, opacity: 0.5 }} />
+          <FileOutlined
+            style={{ fontSize: 48, marginBottom: 16, opacity: 0.5 }}
+          />
           <Title level={4} style={{ color: "#718096", marginBottom: 8 }}>
             暂无下载任务
           </Title>
-          <Text>
-            快去搜索喜欢的音乐并下载吧
-          </Text>
+          <Text>快去搜索喜欢的音乐并下载吧</Text>
         </div>
       )}
 
@@ -322,10 +348,10 @@ export default function DownloadsPage() {
         split={false}
         style={{ background: "transparent" }}
       />
-      
+
       {/* 底部安全区域填充 */}
       <div style={{ height: 20 }} />
-      
+
       <style>{`
         /* 移动端响应式样式 */
         @media (max-width: 768px) {

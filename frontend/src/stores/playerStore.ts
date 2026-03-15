@@ -100,22 +100,26 @@ const updateMediaSession = (
 const preCachePlaylist = async (playlist: Song[], currentIndex: number) => {
   // 预缓存后续3首歌曲
   const preCacheCount = 3;
-  
+
   for (let i = 1; i <= preCacheCount; i++) {
     const nextIndex = currentIndex + i;
     if (nextIndex >= playlist.length) break;
-    
+
     const song = playlist[nextIndex];
     if (!song) continue;
-    
+
     const cacheKey = `${song.bvid}|${song.cid}`;
-    const checkCacheUrl = `/api/proxy/media?url=${encodeURIComponent(cacheKey)}&type=audio&check=1`;
-    
+    const checkCacheUrl = `/api/proxy/media?url=${encodeURIComponent(
+      cacheKey
+    )}&type=audio&check=1`;
+
     try {
       const response = await fetch(checkCacheUrl, { method: "HEAD" });
       if (!response.ok) {
         // 缓存不存在，触发预缓存（使用不阻塞的方式）
-        const cacheUrl = `/api/proxy/media?url=${encodeURIComponent(cacheKey)}&type=audio`;
+        const cacheUrl = `/api/proxy/media?url=${encodeURIComponent(
+          cacheKey
+        )}&type=audio`;
         // 使用 fetch 不等待响应，这样可以在后台缓存
         fetch(cacheUrl, { mode: "no-cors" }).catch(() => {});
         console.log(`📥 开始预缓存: ${song.title}`);
@@ -174,13 +178,22 @@ export const usePlayerStore = create<PlayerState>()(
       restoreState: () => {
         const { playlist, currentIndex, currentSong, audioElement } = get();
         // 页面刷新后，恢复播放状态但保持暂停和进度为0
-        if (playlist.length > 0 && currentIndex >= 0 && currentSong && audioElement) {
+        if (
+          playlist.length > 0 &&
+          currentIndex >= 0 &&
+          currentSong &&
+          audioElement
+        ) {
           // 设置当前歌曲信息，但进度为0，保持暂停状态
-          set({ 
+          set({
             currentTime: 0,
             isPlaying: false,
           });
-          console.log("✅ 已恢复播放状态:", currentSong.title, "- 暂停中，进度为0");
+          console.log(
+            "✅ 已恢复播放状态:",
+            currentSong.title,
+            "- 暂停中，进度为0"
+          );
         }
       },
 
