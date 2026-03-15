@@ -7,10 +7,10 @@ services:
     ports:
       - "8832:3000"  # 左侧改为NAS上你想用的端口
     volumes:
-      - ./data:/app/data
-      - ./downloads:/app/downloads
-      - ./cache:/app/cache
-      - ./temp:/app/temp
+      - ./backend/data:/app/data
+      - ./backend/downloads:/app/downloads
+      - ./backend/cache:/app/cache
+      - ./backend/temp:/app/temp
     environment:
       - NODE_ENV=production
       - PORT=3000
