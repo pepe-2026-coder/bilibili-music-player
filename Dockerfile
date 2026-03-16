@@ -1,6 +1,10 @@
 # 构建前端
 FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
+
+# 设置 npm 镜像源
+RUN npm config set registry https://registry.npmmirror.com
+
 COPY frontend/package*.json ./
 RUN npm ci --legacy-peer-deps
 COPY frontend/ ./
@@ -8,6 +12,9 @@ RUN npm run build
 
 # 构建后端
 FROM node:20-alpine AS backend-builder
+
+# 设置 npm 镜像源
+RUN npm config set registry https://registry.npmmirror.com
 
 # 安装编译原生模块所需的依赖
 RUN apk add --no-cache python3 make g++
@@ -20,6 +27,9 @@ RUN npm run build
 
 # 生产环境
 FROM node:20-alpine
+
+# 设置 npm 镜像源
+RUN npm config set registry https://registry.npmmirror.com
 
 # 安装 FFmpeg 和编译工具（用于 better-sqlite3）
 RUN apk add --no-cache ffmpeg python3 make g++
