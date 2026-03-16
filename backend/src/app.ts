@@ -46,7 +46,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../public")));
 
   // 所有非 API 路由都返回前端应用
-  app.get("*", (req, res) => {
+  app.get("(.*)", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 }
@@ -57,7 +57,7 @@ app.use(
     err: any,
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    next: express.NextFunction,
   ) => {
     console.error(err.stack);
     res.status(500).json({
@@ -65,7 +65,7 @@ app.use(
       message: "服务器内部错误",
       data: null,
     });
-  }
+  },
 );
 
 app.listen(PORT, () => {
