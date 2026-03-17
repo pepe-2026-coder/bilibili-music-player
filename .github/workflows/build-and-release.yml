@@ -17,23 +17,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Install frontend dependencies
         working-directory: ./frontend
-        run: pnpm install --frozen-lockfile
+        run: npm ci --legacy-peer-deps
 
       - name: Build frontend
         working-directory: ./frontend
-        run: pnpm build
+        run: npm run build
 
       - name: Install backend dependencies
         working-directory: ./backend
-        run: pnpm install --frozen-lockfile
+        run: npm ci --legacy-peer-deps
 
       - name: Build backend
         working-directory: ./backend
-        run: pnpm build
+        run: npm run build
 
       - name: Create release package
         run: |
