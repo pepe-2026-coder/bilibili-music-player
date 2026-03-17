@@ -11,17 +11,11 @@ WORKDIR /build/backend
 RUN npm config set registry https://registry.npmmirror.com && \
     npm ci --only=production
 
-# 复制前端构建产物（如果需要）
-# COPY frontend/dist ./frontend/dist
-
 # ========== 运行阶段 ==========
 FROM node:20-alpine
 
 # 设置 npm 镜像源
 RUN npm config set registry https://registry.npmmirror.com
-
-# 安装 curl 用于健康检查和下载更新
-RUN apk add --no-cache curl
 
 # 创建非root用户
 RUN addgroup -g 1000 appgroup && \
@@ -38,9 +32,8 @@ COPY --from=builder /build/backend/node_modules ./node_modules
 COPY --from=builder /build/backend/dist ./dist
 COPY --from=builder /build/backend/package*.json ./
 
-# 复制启动脚本
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# 复制前端构建产物
+COPY frontend/dist ./public
 
 # 切换到非root用户
 USER appuser
@@ -49,11 +42,7 @@ USER appuser
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# 接收构建参数
-ARG REPO_OWNER=你的GitHub用户名
-ARG REPO_NAME=bilibili-music-player
-
 # 暴露端口
 EXPOSE 3000
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["node", "dist/app.js"]

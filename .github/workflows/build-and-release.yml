@@ -44,6 +44,9 @@ jobs:
           cp -r backend/data release/ 2>/dev/null || true
           # 复制前端构建产物
           cp -r frontend/dist release/public
+          # 复制 Docker 相关文件
+          cp Dockerfile release/
+          cp docker-compose.yml release/
           # 创建打包文件
           cd release
           tar -czf ../bilibili-music-player.tar.gz .
