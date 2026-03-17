@@ -2,18 +2,23 @@ version: '3.8'
 
 services:
   bilibili-music:
-    build: .
+    # 使用轻量镜像，不需要编译工具
+    image: node:20-alpine
     container_name: bilibili-music-player
     ports:
-      - "8832:3000"  # 左侧改为NAS上你想用的端口
+      - "8832:3000"
     volumes:
-      - ./backend/data:/app/data
-      - ./backend/downloads:/app/downloads
-      - ./backend/cache:/app/cache
-      - ./backend/temp:/app/temp
+      # 数据持久化目录
+      - ./data:/app/data
+      - ./downloads:/app/downloads
+      - ./cache:/app/cache
+      - ./temp:/app/temp
     environment:
       - NODE_ENV=production
       - PORT=3000
+      # 修改为你的 GitHub 用户名/组织名
+      - REPO_OWNER=你的GitHub用户名
+      - REPO_NAME=bilibili-music-player
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
@@ -21,3 +26,15 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+# 可选：自动更新容器
+# 1. 创建 watchtower-compose.yml:
+#    version: '3'
+#    services:
+#      watchtower:
+#        image: containrrr/watchtower
+#        container_name: watchtower
+#        volumes:
+#          - /var/run/docker.sock:/var/run/docker.sock
+#        command: --interval 3600 --cleanup bilibili-music
+# 2. 运行: docker-compose -f watchtower-compose.yml up -d

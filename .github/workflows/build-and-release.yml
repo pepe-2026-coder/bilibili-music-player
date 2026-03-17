@@ -1,0 +1,75 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: pnpm build
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: pnpm install --frozen-lockfile
+
+      - name: Build backend
+        working-directory: ./backend
+        run: pnpm build
+
+      - name: Create release package
+        run: |
+          mkdir -p release
+          # 复制后端代码和构建产物
+          cp -r backend/dist release/
+          cp backend/package*.json release/
+          cp -r backend/data release/ 2>/dev/null || true
+          # 复制前端构建产物
+          cp -r frontend/dist release/public
+          # 创建打包文件
+          cd release
+          tar -czf ../bilibili-music-player.tar.gz .
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: bilibili-music-player.tar.gz
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
